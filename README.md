@@ -2,6 +2,11 @@
 
 Small Go library to invoke child proceses and wait for their completion
 
+Documentation is available via
+[![GoDoc](https://godoc.org/github.com/karrick/gorun?status.svg)](https://godoc.org/github.com/karrick/gorun)
+and
+[https://pkg.go.dev/github.com/karrick/gorun?tab=doc](https://pkg.go.dev/github.com/karrick/gorun?tab=doc).
+
 ## Description
 
 Executes a system command.
