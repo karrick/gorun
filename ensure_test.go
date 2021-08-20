@@ -21,7 +21,7 @@ func ensureError(tb testing.TB, got, want error) {
 		if ok := errors.As(got, &target); !ok {
 			tb.Fatalf("GOT: %T(%q); WANT: %T(%q)", got, got.Error(), want, want.Error())
 		}
-		if g, w := got.Error(), target.Error(); !strings.Contains(g, w) {
+		if g, w := got.Error(), want.Error(); !strings.Contains(g, w) {
 			tb.Fatalf("GOT: %v; WANT: %v", g, w)
 		}
 	}
