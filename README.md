@@ -37,6 +37,7 @@ to the exit code of the child program, and Err set to nil.
 package main
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"os"
@@ -48,7 +49,7 @@ import (
 func main() {
 	req := &gorun.Request{
 		Path:  "/usr/bin/cat",
-		Stdin: []byte("line 1\nline 2\n"),
+		Stdin: bytes.NewReader([]byte("line 1\nline 2\n")),
 	}
 	resp, err := req.Run(context.Background())
 	if err != nil {

@@ -3,6 +3,7 @@
 package gorun
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"testing"
@@ -56,7 +57,7 @@ func TestRun(t *testing.T) {
 	})
 	t.Run("echo", func(t *testing.T) {
 		got, err := Run(context.Background(), &Request{
-			Path: "/usr/bin/echo",
+			Path: "/bin/echo",
 			Args: []string{"one", "two", "three"},
 		})
 		ensureError(t, err, nil)
@@ -71,7 +72,7 @@ func TestRun(t *testing.T) {
 			Path:  "./test-script.sh",
 			Env:   []string{"GORUN=asdf"},
 			Args:  []string{"first", "line", "from", "arguments"},
-			Stdin: []byte("second line from stdin"),
+			Stdin: bytes.NewReader([]byte("second line from stdin")),
 		})
 		ensureError(t, err, nil)
 		want := &Response{
@@ -85,7 +86,7 @@ func TestRun(t *testing.T) {
 		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
 		defer cancel()
 		got, err := Run(ctx, &Request{
-			Path: "/usr/bin/sleep",
+			Path: "/bin/sleep",
 			Args: []string{"1"},
 		})
 		ensureError(t, err, nil)
@@ -106,7 +107,7 @@ func TestRun(t *testing.T) {
 			cancel()
 
 			_, err := Run(ctx, &Request{
-				Path: "/usr/bin/sleep",
+				Path: "/bin/sleep",
 				Args: []string{"1"},
 			})
 
@@ -121,7 +122,7 @@ func TestRun(t *testing.T) {
 			}()
 
 			got, err := Run(ctx, &Request{
-				Path: "/usr/bin/sleep",
+				Path: "/bin/sleep",
 				Args: []string{"1"},
 			})
 

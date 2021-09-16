@@ -3,6 +3,7 @@ package gorun
 import (
 	"bytes"
 	"context"
+	"io"
 	"os/exec"
 )
 
@@ -43,10 +44,10 @@ type Request struct {
 	// assignments to be sent to the child process.
 	Env []string
 
-	// Stdin is a potentially empty slice of bytes to be available for
-	// the child process to read when it reads from its standard
-	// input.
-	Stdin []byte
+	// Stdin is the potentially nil io.Reader that will be available
+	// for the child process to read from when it reads from its
+	// standard input.
+	Stdin io.Reader
 
 	// Dir is the directory to set as the child process' initial
 	// current working directory when it starts.
@@ -88,7 +89,7 @@ func (req *Request) Run(ctx context.Context) (*Response, error) {
 	cmd.Stdout = &stdout
 
 	if req.Stdin != nil {
-		cmd.Stdin = bytes.NewReader(req.Stdin)
+		cmd.Stdin = req.Stdin
 	}
 
 	if err = cmd.Start(); err != nil {
