@@ -1,11 +1,11 @@
 package main
 
 import (
-	"bytes"
 	"context"
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/karrick/gorun"
 )
@@ -13,7 +13,7 @@ import (
 func main() {
 	req := &gorun.Request{
 		Path:  "/bin/cat",
-		Stdin: bytes.NewReader([]byte("line 1\nline 2\n")),
+		Stdin: strings.NewReader("line 1\nline 2\n"),
 	}
 	resp, err := req.Run(context.Background())
 	if err != nil {

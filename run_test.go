@@ -1,11 +1,12 @@
+//go:build !windows
 // +build !windows
 
 package gorun
 
 import (
-	"bytes"
 	"context"
 	"errors"
+	"strings"
 	"testing"
 	"time"
 )
@@ -72,7 +73,7 @@ func TestRun(t *testing.T) {
 			Path:  "./test-script.sh",
 			Env:   []string{"GORUN=asdf"},
 			Args:  []string{"first", "line", "from", "arguments"},
-			Stdin: bytes.NewReader([]byte("second line from stdin")),
+			Stdin: strings.NewReader("second line from stdin"),
 		})
 		ensureError(t, err, nil)
 		want := &Response{
